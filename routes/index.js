@@ -13,7 +13,7 @@ function route_get_block(res, blockhash) {
         res.render('block', { active: 'block', block: block, confirmations: settings.confirmations, txs: 'GENESIS'});
       } else {
         db.get_txs(block, function(txs) {
-          if (txs.length > 0) {          
+          if (txs.length > 0) {
             res.render('block', { active: 'block', block: block, confirmations: settings.confirmations, txs: txs});
           } else {
             db.create_txs(block, function(){
@@ -44,30 +44,31 @@ function route_get_tx(res, txid) {
         lib.get_blockcount(function(blockcount) {
           res.render('tx', { active: 'tx', tx: tx, confirmations: settings.confirmations, blockcount: blockcount});
         });
-      } 
+      }
       else {
         lib.get_rawtransaction(txid, function(rtx) {
           if (rtx.txid) {
-            db.create_tx(txid, function(err) {
-              if (err) {
-                route_get_index(res, null);
-              } else {
-                db.get_tx(txid, function(newtx) {
-                  res.render('tx', { active: 'tx', tx: newtx, confirmations: settings.confirmations});
-                });
-              }
-            });
+//            db.create_tx(txid, function(err) {
+//              if (err) {
+//                route_get_index(res, null);
+//              } else {
+//                db.get_tx(txid, function(newtx) {
+//                  res.render('tx', { active: 'tx', tx: newtx, confirmations: settings.confirmations});
+                  res.render('tx', { active: 'tx', tx: rtx, confirmations: settings.confirmations});
+//                });
+//              }
+//            });
           } else {
             route_get_index(res, null);
           }
-        });  
+        });
       }
     });
   }
 }
 
 function route_get_index(res, error) {
-  res.render('index', { active: 'home', error: error, warning: null});        
+  res.render('index', { active: 'home', error: error, warning: null});
 }
 
 function route_get_address(res, hash, count) {
@@ -89,10 +90,10 @@ function route_get_address(res, hash, count) {
           }
         });
       }, function(){
-       
+
         res.render('address', { active: 'address', address: address, txs: txs});
       });
-      
+
     } else {
       route_get_index(res, hash + ' not found');
     }
@@ -117,9 +118,9 @@ router.get('/markets/:market', function(req, res) {
         exchange: settings.markets.exchange,
         data: data,
       };
-      res.render('./markets/' + market, { 
-        active: 'markets', 
-        marketdata: market_data, 
+      res.render('./markets/' + market, {
+        active: 'markets',
+        marketdata: market_data,
         market: market,
       });
     });
@@ -129,16 +130,16 @@ router.get('/markets/:market', function(req, res) {
 });
 
 router.get('/richlist', function(req, res) {
-  if (settings.display.richlist == true ) {  
-    db.get_stats(settings.coin, function (stats) { 
+  if (settings.display.richlist == true ) {
+    db.get_stats(settings.coin, function (stats) {
       db.get_richlist(settings.coin, function(richlist){
         //console.log(richlist);
         if (richlist) {
           db.get_distribution(richlist, stats, function(distribution) {
             //console.log(distribution);
-            res.render('richlist', { 
-              active: 'richlist', 
-              balance: richlist.balance, 
+            res.render('richlist', {
+              active: 'richlist',
+              balance: richlist.balance,
               received: richlist.received,
               stats: stats,
               dista: distribution.t_1_25,
@@ -155,7 +156,7 @@ router.get('/richlist', function(req, res) {
           route_get_index(res, null);
         }
       });
-    });   
+    });
   } else {
     route_get_index(res, null);
   }
@@ -166,7 +167,7 @@ router.get('/reward', function(req, res){
     console.log(stats);
     db.get_heavy(settings.coin, function (heavy) {
       //heavy = heavy;
-      var votes = heavy.votes; 
+      var votes = heavy.votes;
       votes.sort(function (a,b) {
         if (a.count < b.count) {
           return -1;
@@ -176,7 +177,7 @@ router.get('/reward', function(req, res){
          return 0;
         }
       });
-          
+
       res.render('reward', { active: 'reward', stats: stats, heavy: heavy, votes: heavy.votes });
     });
   //});
@@ -204,7 +205,7 @@ router.post('/search', function(req, res) {
     if (query == settings.genesis_tx) {
       res.redirect('/block/' + settings.genesis_block);
     } else {
-      db.get_tx(query, function(tx) {      
+      db.get_tx(query, function(tx) {
         if (tx) {
           res.redirect('/tx/' +tx.txid);
         } else {
@@ -237,11 +238,11 @@ router.post('/search', function(req, res) {
 
 router.get('/qr/:string', function(req, res) {
   if (req.param('string')) {
-    var address = qr.image(req.param('string'), { 
-      type: 'png', 
-      size: 4, 
-      margin: 1, 
-      ec_level: 'M' 
+    var address = qr.image(req.param('string'), {
+      type: 'png',
+      size: 4,
+      margin: 1,
+      ec_level: 'M'
     });
     res.type('png');
     address.pipe(res);
@@ -263,9 +264,9 @@ router.get('/ext/summary', function(req, res) {
           db.get_stats(settings.coin, function (stats) {
             if (hashrate == 'There was an error. Check your console.') {
               hashrate = 0;
-            } 
-            res.send({ data: [{ 
-              difficulty: difficulty, 
+            }
+            res.send({ data: [{
+              difficulty: difficulty,
               supply: stats.supply,
               hashrate: hashrate,
               lastPrice: stats.last_price,
