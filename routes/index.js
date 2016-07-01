@@ -48,16 +48,14 @@ function route_get_tx(res, txid) {
       else {
         lib.get_rawtransaction(txid, function(rtx) {
           if (rtx.txid) {
-//            db.create_tx(txid, function(err) {
-//              if (err) {
-//                route_get_index(res, null);
-//              } else {
-//                db.get_tx(txid, function(newtx) {
-//                  res.render('tx', { active: 'tx', tx: newtx, confirmations: settings.confirmations});
-                  res.render('tx', { active: 'tx', tx: rtx, confirmations: settings.confirmations});
-//                });
-//              }
-//            });
+            lib.prepare_vin(rtx, function(vin) {
+              lib.prepare_vout(rtx.vout,rtx.txid, vin, function(vout, nvin) {
+                rtx.vin = nvin;
+                rtx.vout = vout;
+                res.render('tx', { active: 'tx', tx: rtx, confirmations: settings.confirmations});
+              });
+            });
+
           } else {
             route_get_index(res, null);
           }
