@@ -16,8 +16,8 @@ var app = express();
 // bitcoinapi
 bitcoinapi.setWalletDetails(settings.wallet);
 if (settings.heavy != true) {
-  bitcoinapi.setAccess('only', ['getinfo', 'getnetworkhashps', 'getmininginfo','getdifficulty', 'getconnectioncount', 
-    'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction']);
+  bitcoinapi.setAccess('only', ['getinfo', 'getnetworkhashps', 'getmininginfo','getdifficulty', 'getconnectioncount',
+    'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction', 'gettxoutsetinfo']);
 } else {
   // enable additional heavy api calls
   /*
@@ -31,10 +31,10 @@ if (settings.heavy != true) {
     getsupply - Returns the current money supply.
     getmaxmoney - Returns the maximum possible money supply.
   */
-  bitcoinapi.setAccess('only', ['getinfo', 'getstakinginfo', 'getnetworkhashps', 'getdifficulty', 'getconnectioncount', 
+  bitcoinapi.setAccess('only', ['getinfo', 'getstakinginfo', 'getnetworkhashps', 'getdifficulty', 'getconnectioncount',
     'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction','getmaxmoney', 'getvote',
     'getmaxvote', 'getphase', 'getreward', 'getnextrewardestimate', 'getnextrewardwhenstr',
-    'getnextrewardwhensec', 'getsupply']);
+    'getnextrewardwhensec', 'getsupply', 'gettxoutsetinfo']);
 }
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
