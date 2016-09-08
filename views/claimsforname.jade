@@ -1,0 +1,59 @@
+extends layout
+
+block content
+  script.
+    $(document).ready(function(){
+      var ctable = $('#claims-table').dataTable( {
+        autoWidth: true,
+        searching: false,
+        ordering: false,
+        responsive: true,
+        lengthChange: true,
+        processing: true,
+        ajax: {
+          url: '/ext/claims/name/#{name}',
+          dataSrc: function ( json ) {
+            var claims = json.data.claims;
+            claims.sort(function(a, b) {return a.nHeight < b.nHeight;});
+            for ( var i=0;i<claims.length; i++ ) {
+              claims[i]['txid'] = "<a href='/tx/" + claims[i]['txid'] + "'>" + claims[i]['txid'] + "</a>";
+              claims[i]['blockindex'] = claims[i]['nHeight'];
+              var amount = claims[i]['nAmount'] / 100000000;
+              claims[i]['amount'] = amount.toFixed(8);
+              claims[i]['supports'] = claims[i]['supports'].length;
+              claims[i]['total'] = (claims[i]['nEffectiveAmount'] / 100000000).toFixed(8);
+              claims[i]['view'] = '<a href="/claims/#{name}/' + claims[i]['claimId'] + '">';
+              claims[i]['view'] += '<span class="glyphicon glyphicon-eye-open"></span>';
+            }
+            return claims;
+          }
+        },
+        columns: [
+          { data: 'blockindex', width: '8%' },
+          { data: 'txid', width: '40%' },
+          { data: 'amount', width: '15%' },
+          { data: 'supports', width:'5%' },
+          { data: 'total', width: '15%' },
+          { data: 'view', width: '5%' }
+        ]
+      });
+      setInterval( function () {
+        ctable.api().ajax.reload(null, false);
+      }, 60000 );
+    });
+
+  .col-md-12
+    .panel.panel-default
+      .panel-heading
+        strong #{settings.locale.ex_name_claims} #{name}
+      table#claims-table.table.table-bordered.table-striped
+        thead
+          tr
+            th.text-center #{settings.locale.ex_block}
+            th.hidden-xs.text-center #{settings.locale.tx_hash}
+            th.text-center #{settings.locale.mkt_amount} (#{settings.symbol})
+            th.hidden-xs.text-center #{settings.locale.ex_supports}
+            th.text-center #{settings.locale.ex_total_with_supports} (#{settings.symbol})
+            th
+        tbody.text-center
+    .footer-padding

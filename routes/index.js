@@ -277,5 +277,23 @@ router.get('/ext/summary', function(req, res) {
     });
   });
 });
-module.exports = router;
 
+router.get('/claims/:name', function(req, res) {
+    var name = req.param('name');
+    if (name)
+    {
+        res.render('claimsforname', {active: 'claimsforname', name: name});
+    }
+});
+router.get('/claims/:name/:claimId', function(req, res) {
+    var name = req.param('name');
+    var claimId = req.param('claimId');
+    if (name && claimId)
+    {
+        lib.get_claim_from_claim_id(name, claimId, function (claim)
+        {
+            res.render('claim', {active: 'claim', name: name, claim: claim});
+        });
+    }
+});
+module.exports = router;

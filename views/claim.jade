@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  .col-md-12
+   h4 #{settings.locale.ex_claim_id} #{claim.claimId}
+   h4 #{settings.locale.ex_name} #{name}
+   h4 #{settings.locale.tx_hash}: 
+     a(href='/tx/#{claim.txid}') #{claim.txid}
+   - var amount = claim.nAmount / 100000000
+   h4 #{settings.locale.mkt_amount} (#{settings.symbol}): #{amount.toFixed(8)}
+
+   if claim.supports.length
+    .panel.panel-default
+      .panel-heading
+        strong #{settings.locale.ex_supports}
+      table#supports-table.table.table-bordered.table-striped
+        thead
+          tr
+            th.text-center #{settings.locale.ex_block}
+            th.hidden-xs.text-center #{settings.locale.tx_hash}
+            th.text-center #{settings.locale.mkt_amount} (#{settings.symbol})
+        tbody.text-center
+            each s in claim.supports
+              tr
+                td #{s.nHeight}
+                td.hidden-xs
+                  a(href='/tx/#{s.txid}') #{s.txid}
+                - var total = s.nAmount / 100000000
+                td #{total.toFixed(8)}
+    - var amount = claim.nEffectiveAmount / 100000000
+    h4 #{settings.locale.ex_total_with_supports} (#{settings.symbol}): #{amount.toFixed(8)}
+  .footer-padding
