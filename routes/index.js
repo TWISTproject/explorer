@@ -4,7 +4,8 @@ var express = require('express')
   , locale = require('../lib/locale')
   , db = require('../lib/database')
   , lib = require('../lib/explorer')
-  , qr = require('qr-image');
+  , qr = require('qr-image')
+  , request = require('request');
 
 function route_get_block(res, blockhash) {
   lib.get_block(blockhash, function (block) {
@@ -36,13 +37,22 @@ function route_get_block(res, blockhash) {
 /* GET functions */
 
 function route_get_tx(res, txid) {
+  function get_claim_info_then_render(info)
+  {
+      uri = 'http://127.0.0.1:' + settings.port + '/ext/claims/tx/' + txid;
+      request({uri: uri, json: true}, function (error, response, body) {
+        info['claims'] = body.data;
+        res.render('tx', info);
+      });
+  }
+
   if (txid == settings.genesis_tx) {
     route_get_block(res, settings.genesis_block);
   } else {
     db.get_tx(txid, function(tx) {
       if (tx) {
         lib.get_blockcount(function(blockcount) {
-          res.render('tx', { active: 'tx', tx: tx, confirmations: settings.confirmations, blockcount: blockcount});
+          get_claim_info_then_render({ active: 'tx', tx: tx, confirmations: settings.confirmations, blockcount: blockcount});
         });
       }
       else {
@@ -52,7 +62,7 @@ function route_get_tx(res, txid) {
               lib.prepare_vout(rtx.vout,rtx.txid, vin, function(vout, nvin) {
                 rtx.vin = nvin;
                 rtx.vout = vout;
-                res.render('tx', { active: 'tx', tx: rtx, confirmations: settings.confirmations});
+                get_claim_info_then_render({ active: 'tx', tx: rtx, confirmations: settings.confirmations});
               });
             });
 

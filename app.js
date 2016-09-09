@@ -17,7 +17,7 @@ var app = express();
 bitcoinapi.setWalletDetails(settings.wallet);
 if (settings.heavy != true) {
   bitcoinapi.setAccess('only', ['getinfo', 'getnetworkhashps', 'getmininginfo','getdifficulty', 'getconnectioncount',
-    'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction', 'gettxoutsetinfo', 'getclaimsforname']);
+    'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction', 'gettxoutsetinfo', 'getclaimsforname', 'getclaimsfortx']);
 } else {
   // enable additional heavy api calls
   /*
@@ -34,7 +34,7 @@ if (settings.heavy != true) {
   bitcoinapi.setAccess('only', ['getinfo', 'getstakinginfo', 'getnetworkhashps', 'getdifficulty', 'getconnectioncount',
     'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction','getmaxmoney', 'getvote',
     'getmaxvote', 'getphase', 'getreward', 'getnextrewardestimate', 'getnextrewardwhenstr',
-    'getnextrewardwhensec', 'getsupply', 'gettxoutsetinfo', 'getclaimsforname']);
+    'getnextrewardwhensec', 'getsupply', 'gettxoutsetinfo', 'getclaimsforname', 'getclaimsfortx']);
 }
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -98,6 +98,32 @@ app.use('/ext/claims/name/:name', function(req,res){
     lib.get_claims_for_name(name, function(claims)
     {
         res.send({data: claims});
+    });
+});
+
+app.use('/ext/claims/tx/:tx', function(req,res){
+    var tx = req.param('tx');
+    lib.get_claims_for_tx(tx, function(result)
+    {
+        var claims = [];
+        var supports = [];
+        result.forEach(function(claim)
+        {
+            var type = ('undefined' == typeof claim['supported claimId']) ? 'claim': 'support';
+            var claimId = (type == 'claim') ? claim['claimId'] : claim['supported claimId'];
+            var c = {claimId: claimId, name: claim.name};
+            if (type == 'claim')
+            {
+                claims.push(c);
+            }
+
+            else
+            {
+                supports.push(c);
+            }
+        });
+
+        res.send({data: {claims: claims, supports: supports}});
     });
 });
 
