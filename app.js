@@ -105,25 +105,7 @@ app.use('/ext/claims/tx/:tx', function(req,res){
     var tx = req.param('tx');
     lib.get_claims_for_tx(tx, function(result)
     {
-        var claims = [];
-        var supports = [];
-        result.forEach(function(claim)
-        {
-            var type = ('undefined' == typeof claim['supported claimId']) ? 'claim': 'support';
-            var claimId = (type == 'claim') ? claim['claimId'] : claim['supported claimId'];
-            var c = {claimId: claimId, name: claim.name};
-            if (type == 'claim')
-            {
-                claims.push(c);
-            }
-
-            else
-            {
-                supports.push(c);
-            }
-        });
-
-        res.send({data: {claims: claims, supports: supports}});
+        res.send({data: result});
     });
 });
 

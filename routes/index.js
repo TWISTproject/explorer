@@ -4,8 +4,7 @@ var express = require('express')
   , locale = require('../lib/locale')
   , db = require('../lib/database')
   , lib = require('../lib/explorer')
-  , qr = require('qr-image')
-  , request = require('request');
+  , qr = require('qr-image');
 
 function route_get_block(res, blockhash) {
   lib.get_block(blockhash, function (block) {
@@ -39,9 +38,8 @@ function route_get_block(res, blockhash) {
 function route_get_tx(res, txid) {
   function get_claim_info_then_render(info)
   {
-      uri = 'http://127.0.0.1:' + settings.port + '/ext/claims/tx/' + txid;
-      request({uri: uri, json: true}, function (error, response, body) {
-        info['claims'] = body.data;
+      lib.get_claims_for_tx(txid, function (data) {
+        info['claims'] = data;
         res.render('tx', info);
       });
   }
