@@ -17,7 +17,7 @@ var app = express();
 bitcoinapi.setWalletDetails(settings.wallet);
 if (settings.heavy != true) {
   bitcoinapi.setAccess('only', ['getinfo', 'getnetworkhashps', 'getmininginfo','getdifficulty', 'getconnectioncount',
-    'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction', 'gettxoutsetinfo']);
+    'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction', 'gettxoutsetinfo', 'getclaimsforname', 'getclaimsfortx']);
 } else {
   // enable additional heavy api calls
   /*
@@ -34,7 +34,7 @@ if (settings.heavy != true) {
   bitcoinapi.setAccess('only', ['getinfo', 'getstakinginfo', 'getnetworkhashps', 'getdifficulty', 'getconnectioncount',
     'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction','getmaxmoney', 'getvote',
     'getmaxvote', 'getphase', 'getreward', 'getnextrewardestimate', 'getnextrewardwhenstr',
-    'getnextrewardwhensec', 'getsupply', 'gettxoutsetinfo']);
+    'getnextrewardwhensec', 'getsupply', 'gettxoutsetinfo', 'getclaimsforname', 'getclaimsfortx']);
 }
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -91,6 +91,22 @@ app.use('/ext/getdistribution', function(req,res){
       });
     });
   });
+});
+
+app.use('/ext/claims/name/:name', function(req,res){
+    var name = req.param('name');
+    lib.get_claims_for_name(name, function(claims)
+    {
+        res.send({data: claims});
+    });
+});
+
+app.use('/ext/claims/tx/:tx', function(req,res){
+    var tx = req.param('tx');
+    lib.get_claims_for_tx(tx, function(result)
+    {
+        res.send({data: result});
+    });
 });
 
 app.use('/ext/getlasttxs/:count/:min', function(req,res){
