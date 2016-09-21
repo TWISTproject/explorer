@@ -19,7 +19,7 @@ An open source block explorer written in node.js.
 
 *  node.js >= 0.10.28
 *  mongodb 2.6.x
-*  *coind
+*  lbrycrdd (with -txindex)
 
 ### Create database
 
@@ -34,6 +34,10 @@ Create databse:
 Create user with read/write access:
 
     > db.createUser( { user: "iquidus", pwd: "3xp!0reR", roles: [ "readWrite" ] } )
+
+Create index on tx table (you may have to run this after running the initial sync. txes collection may not exist yet):
+
+    > db.txes.createIndex({timestamp:-1})
 
 ### Get the source
 
