@@ -36,11 +36,14 @@ function route_get_block(res, blockhash) {
 /* GET functions */
 
 function route_get_tx(res, txid) {
-  function get_claim_info_then_render(info)
-  {
-      lib.get_claims_for_tx(txid, function (data) {
-        info['claims'] = data;
-        res.render('tx', info);
+  function get_claim_info_then_render(info) {
+      lib.get_claims_for_tx(txid, function (err, data) {
+        if (err) {
+          route_get_index(res, err);
+        } else {
+          info['claims'] = data;
+          res.render('tx', info);
+        }
       });
   }
 
@@ -63,7 +66,6 @@ function route_get_tx(res, txid) {
                 get_claim_info_then_render({ active: 'tx', tx: rtx, confirmations: settings.confirmations});
               });
             });
-
           } else {
             route_get_index(res, null);
           }
@@ -286,21 +288,25 @@ router.get('/ext/summary', function(req, res) {
   });
 });
 
-router.get('/claims/:name', function(req, res) {
+router.get('/claim/:name', function(req, res) {
     var name = req.param('name');
     if (name)
     {
         res.render('claimsforname', {active: 'claimsforname', name: name});
     }
 });
-router.get('/claims/:name/:claimId', function(req, res) {
+router.get('/claim/:name/:claimId', function(req, res) {
     var name = req.param('name');
     var claimId = req.param('claimId');
     if (name && claimId)
     {
-        lib.get_claim_from_claim_id(name, claimId, function (claim)
+        lib.get_claim_from_claim_id(name, claimId, function (err, claim)
         {
+          if (err) {
+            res.render('claimsforname', {active: 'claimsforname', name: name, error: err});
+          } else {
             res.render('claim', {active: 'claim', name: name, claim: claim});
+          }
         });
     }
 });

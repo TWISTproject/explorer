@@ -1,32 +1,56 @@
 extends layout
 
 block content
-  .col-md-12
-   h4 #{settings.locale.ex_claim_id}: #{claim.claimId}
-   h4 #{settings.locale.ex_name}: #{name}
-   h4 #{settings.locale.tx_hash}:
-     a(href='/tx/#{claim.txid}') #{claim.txid}
-   - var amount = claim.nAmount / 100000000
-   h4 #{settings.locale.mkt_amount} (#{settings.symbol}): #{amount.toFixed(8)}
 
-   if claim.supports.length
+  .col-xs-12.col-md-10.col-md-offset-1
+    if error
+      .alert.alert-danger.alert-dismissable(role='alert')
+        button.close(type='button', data-dismiss='alert') ×
+        strong #{settings.locale.ex_error} #{error}
+    if warning
+      .alert.alert-warning.alert-dismissable(role='alert')
+        button.close(type='button', data-dismiss='alert') ×
+        strong #{settings.locale.ex_warning} #{warning}
+
+  .col-xs-12.col-md-10.col-md-offset-1
     .panel.panel-default
-      .panel-heading
-        strong #{settings.locale.ex_supports}
-      table#supports-table.table.table-bordered.table-striped
+      .panel-heading.hidden-xs
+        strong #{settings.locale.ex_claim_id} #{claim.claimId}
+      table.table.table-bordered.table-striped.summary-table
         thead
           tr
-            th.text-center #{settings.locale.ex_block}
-            th.hidden-xs.text-center #{settings.locale.tx_hash}
-            th.text-center #{settings.locale.mkt_amount} (#{settings.symbol})
-        tbody.text-center
-            each s in claim.supports
-              tr
-                td #{s.nHeight}
-                td.hidden-xs
-                  a(href='/tx/#{s.txid}') #{s.txid}
-                - var total = s.nAmount / 100000000
-                td #{total.toFixed(8)}
-    - var amount = claim.nEffectiveAmount / 100000000
-    h4 #{settings.locale.ex_total_with_supports} (#{settings.symbol}): #{amount.toFixed(8)}
-  .footer-padding
+            th #{settings.locale.ex_name}
+            th.hidden-xs #{settings.locale.claim_tx}
+            th #{settings.locale.mkt_amount}
+        tbody
+          tr
+            td
+              a(href='/claim/#{name}') #{name}
+            td
+              a(href='/tx/#{claim.txid}') #{claim.txid}
+            td
+              - var amount = claim.nAmount / 100000000
+              #{settings.locale.mkt_amount} #{amount.toFixed(8)} #{settings.symbol}
+
+
+    if claim.supports.length
+      .panel.panel-default
+        .panel-heading
+          strong #{settings.locale.ex_supports}
+        table#supports-table.table.table-bordered.table-striped
+          thead
+            tr
+              th.text-center #{settings.locale.ex_block}
+              th.hidden-xs.text-center #{settings.locale.claim_tx}
+              th.text-center #{settings.locale.mkt_amount} (#{settings.symbol})
+          tbody.text-center
+              each s in claim.supports
+                tr
+                  td #{s.nHeight}
+                  td.hidden-xs
+                    a(href='/tx/#{s.txid}') #{s.txid}
+                  - var total = s.nAmount / 100000000
+                  td #{total.toFixed(8)}
+      - var amount = claim.nEffectiveAmount / 100000000
+      h4 #{settings.locale.ex_total_with_supports} (#{settings.symbol}): #{amount.toFixed(8)}
+    .footer-padding

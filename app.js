@@ -15,27 +15,33 @@ var app = express();
 
 // bitcoinapi
 bitcoinapi.setWalletDetails(settings.wallet);
-if (settings.heavy != true) {
-  bitcoinapi.setAccess('only', ['getinfo', 'getnetworkhashps', 'getmininginfo','getdifficulty', 'getconnectioncount',
-    'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction', 'gettxoutsetinfo', 'getclaimsforname', 'getclaimsfortx']);
-} else {
+var allowedApiActions = [
+  'getinfo', 'getnetworkhashps', 'getmininginfo','getdifficulty', 'getconnectioncount',
+  'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction', 'gettxoutsetinfo',
+  'getclaimsforname', 'getclaimsfortx'
+];
+
+if (settings.heavy) {
   // enable additional heavy api calls
   /*
-    getvote - Returns the current block reward vote setting.
-    getmaxvote - Returns the maximum allowed vote for the current phase of voting.
-    getphase - Returns the current voting phase ('Mint', 'Limit' or 'Sustain').
-    getreward - Returns the current block reward, which has been decided democratically in the previous round of block reward voting.
-    getnextrewardestimate - Returns an estimate for the next block reward based on the current state of decentralized voting.
-    getnextrewardwhenstr - Returns string describing how long until the votes are tallied and the next block reward is computed.
-    getnextrewardwhensec - Same as above, but returns integer seconds.
-    getsupply - Returns the current money supply.
-    getmaxmoney - Returns the maximum possible money supply.
-  */
-  bitcoinapi.setAccess('only', ['getinfo', 'getstakinginfo', 'getnetworkhashps', 'getdifficulty', 'getconnectioncount',
-    'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction','getmaxmoney', 'getvote',
-    'getmaxvote', 'getphase', 'getreward', 'getnextrewardestimate', 'getnextrewardwhenstr',
-    'getnextrewardwhensec', 'getsupply', 'gettxoutsetinfo', 'getclaimsforname', 'getclaimsfortx']);
+   getvote - Returns the current block reward vote setting.
+   getmaxvote - Returns the maximum allowed vote for the current phase of voting.
+   getphase - Returns the current voting phase ('Mint', 'Limit' or 'Sustain').
+   getreward - Returns the current block reward, which has been decided democratically in the previous round of block reward voting.
+   getnextrewardestimate - Returns an estimate for the next block reward based on the current state of decentralized voting.
+   getnextrewardwhenstr - Returns string describing how long until the votes are tallied and the next block reward is computed.
+   getnextrewardwhensec - Same as above, but returns integer seconds.
+   getsupply - Returns the current money supply.
+   getmaxmoney - Returns the maximum possible money supply.
+   */
+  allowedApiActions = allowedApiActions.concat([
+    'getstakinginfo', 'getmaxmoney', 'getvote', 'getmaxvote', 'getphase', 'getreward',
+    'getnextrewardestimate', 'getnextrewardwhenstr', 'getnextrewardwhensec', 'getsupply'
+  ]);
 }
+bitcoinapi.setAccess('only', allowedApiActions);
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -95,17 +101,23 @@ app.use('/ext/getdistribution', function(req,res){
 
 app.use('/ext/claims/name/:name', function(req,res){
     var name = req.param('name');
-    lib.get_claims_for_name(name, function(claims)
-    {
+    lib.get_claims_for_name(name, function(err, claims) {
+      if (err) {
+        res.send({error: err, name: name});
+      } else {
         res.send({data: claims});
+      }
     });
 });
 
 app.use('/ext/claims/tx/:tx', function(req,res){
     var tx = req.param('tx');
-    lib.get_claims_for_tx(tx, function(result)
-    {
-        res.send({data: result});
+    lib.get_claims_for_tx(tx, function(err, claims) {
+        if (err) {
+          res.send({error: err, tx: tx});
+        } else {
+          res.send({data: claims});
+        }
     });
 });
 

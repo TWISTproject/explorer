@@ -22,7 +22,7 @@ block content
               claims[i]['amount'] = amount.toFixed(8);
               claims[i]['supports'] = claims[i]['supports'].length;
               claims[i]['total'] = (claims[i]['nEffectiveAmount'] / 100000000).toFixed(8);
-              claims[i]['view'] = '<a href="/claims/#{name}/' + claims[i]['claimId'] + '">';
+              claims[i]['view'] = '<a href="/claim/#{name}/' + claims[i]['claimId'] + '">';
               claims[i]['view'] += '<span class="glyphicon glyphicon-eye-open"></span>';
             }
             return claims;
@@ -42,18 +42,31 @@ block content
       }, 60000 );
     });
 
-  .col-md-12
+  .col-xs-12.col-md-10.col-md-offset-1
+    if error
+      .alert.alert-danger.alert-dismissable(role='alert')
+        button.close(type='button', data-dismiss='alert') ×
+        strong #{settings.locale.ex_error} #{error}
+    if warning
+      .alert.alert-warning.alert-dismissable(role='alert')
+        button.close(type='button', data-dismiss='alert') ×
+        strong #{settings.locale.ex_warning} #{warning}
+
+  .col-xs-12.col-md-10.col-md-offset-1
     .panel.panel-default
       .panel-heading
-        strong #{settings.locale.ex_name_claims} #{name}
+        strong #{settings.locale.ex_name_claims} "#{name}"
+        a(href='/ext/claims/name/#{name}')
+          span.glyphicon.glyphicon-info-sign.iquidus.pull-right
+
       table#claims-table.table.table-bordered.table-striped
         thead
           tr
             th.text-center #{settings.locale.ex_block}
-            th.hidden-xs.text-center #{settings.locale.tx_hash}
-            th.text-center #{settings.locale.mkt_amount} (#{settings.symbol})
+            th.hidden-xs.text-center #{settings.locale.claim_tx}
+            th.text-center #{settings.locale.mkt_amount}
             th.hidden-xs.text-center #{settings.locale.ex_supports}
-            th.text-center #{settings.locale.ex_total_with_supports} (#{settings.symbol})
+            th.text-center #{settings.locale.ex_total_with_supports}
             th
         tbody.text-center
     .footer-padding

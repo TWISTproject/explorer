@@ -125,11 +125,11 @@ block content
           each c in claims.claims
             tr
               td
-               a(href='/claims/#{c.name}') #{c.name}
+               a(href='/claim/#{c.name}') #{c.name}
               td
-               a(href='/claims/#{c.name}/#{c.claimId}') #{c.claimId}
+               a(href='/claim/#{c.name}/#{c.claimId}') #{c.claimId}
               td.view_tx
-               a(href='/claims/#{c.name}/#{c.claimId}')
+               a(href='/claim/#{c.name}/#{c.claimId}')
                 span.glyphicon.glyphicon-eye-open
 
     if claims.supports.length
@@ -146,11 +146,11 @@ block content
           each c in claims.supports
             tr
               td
-               a(href='/claims/#{c.name}') #{c.name}
+               a(href='/claim/#{c.name}') #{c.name}
               td
-               a(href='/claims/#{c.name}/#{c.claimId}') #{c.claimId}
+               a(href='/claim/#{c.name}/#{c.claimId}') #{c.claimId}
               td.view_tx
-               a(href='/claims/#{c.name}/#{c.claimId}')
+               a(href='/claim/#{c.name}/#{c.claimId}')
                 span.glyphicon.glyphicon-eye-open
 
     .footer-padding
