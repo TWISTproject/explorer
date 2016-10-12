@@ -9,6 +9,7 @@ var mongoose = require('mongoose')
 
 var mode = 'update';
 var database = 'index';
+var firstBlockToCheck = 1;
 
 // displays usage and exits
 function usage() {
@@ -44,6 +45,10 @@ if (process.argv[2] == 'index') {
       break;
     case 'check':
       mode = 'check';
+      var blockToCheckArg = parseInt(process.argv[4], 10);
+      if (!isNaN(blockToCheckArg) && blockToCheckArg >= 1) { // if its an int
+        firstBlockToCheck = blockToCheckArg;
+      }
       break;
     case 'reindex':
       mode = 'reindex';
@@ -144,6 +149,7 @@ is_locked(function (exists) {
                     });
                   }
                   if (mode == 'reindex') {
+                    console.log('Reindexing from the beginning');
                     Tx.remove({}, function(err) {
                       Address.remove({}, function(err2) {
                         Richlist.update({coin: settings.coin}, {
@@ -169,13 +175,15 @@ is_locked(function (exists) {
                       });
                     });
                   } else if (mode == 'check') {
-                    db.update_tx_db(settings.coin, 1, stats.count, settings.check_timeout, function(){
+                    console.log('Checking index, starting at block %s', firstBlockToCheck);
+                    db.update_tx_db(settings.coin, firstBlockToCheck, stats.count, settings.check_timeout, function(){
                       db.get_stats(settings.coin, function(nstats){
                         console.log('check complete (block: %s)', nstats.last);
                         exit();
                       });
                     });
                   } else if (mode == 'update') {
+                    console.log('Updating index, starting at block %s', stats.last);
                     db.update_tx_db(settings.coin, stats.last, stats.count, settings.update_timeout, function(){
                       db.update_richlist('received', function(){
                         db.update_richlist('balance', function(){
