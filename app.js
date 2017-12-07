@@ -17,8 +17,7 @@ var app = express();
 bitcoinapi.setWalletDetails(settings.wallet);
 var allowedApiActions = [
   'getinfo', 'getnetworkhashps', 'getmininginfo','getdifficulty', 'getconnectioncount',
-  'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction', 'gettxoutsetinfo',
-  'getclaimsforname', 'getclaimsfortx'
+  'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction', 'gettxoutsetinfo'
 ];
 
 if (settings.heavy) {
@@ -97,28 +96,6 @@ app.use('/ext/getdistribution', function(req,res){
       });
     });
   });
-});
-
-app.use('/ext/claims/name/:name', function(req,res){
-    var name = req.param('name');
-    lib.get_claims_for_name(name, function(err, claims) {
-      if (err) {
-        res.send({error: err, name: name});
-      } else {
-        res.send({data: claims});
-      }
-    });
-});
-
-app.use('/ext/claims/tx/:tx', function(req,res){
-    var tx = req.param('tx');
-    lib.get_claims_for_tx(tx, function(err, claims) {
-        if (err) {
-          res.send({error: err, tx: tx});
-        } else {
-          res.send({data: claims});
-        }
-    });
 });
 
 app.use('/ext/getlasttxs/:count/:min', function(req,res){

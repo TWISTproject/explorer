@@ -111,46 +111,8 @@ block content
                     tr.hidden-lg.hidden-md
                       td.success #{ramount.toFixed(8)} #{settings.symbol}
 
-    if claims.claims.length
-     .panel.panel-default
-      .panel-heading
-        strong #{settings.locale.ex_assoc_claims}
-      table.table.table-bordered.table-striped.summary-table
-        thead
-          tr
-            th #{settings.locale.ex_name}
-            th.hidden-xs #{settings.locale.ex_claim_id}
-            th
-        tbody
-          each c in claims.claims
-            tr
-              td
-               a(href='/claim/#{c.name}') #{c.name}
-              td
-               a(href='/claim/#{c.name}/#{c.claimId}') #{c.claimId}
-              td.view_tx
-               a(href='/claim/#{c.name}/#{c.claimId}')
-                span.glyphicon.glyphicon-eye-open
+    
 
-    if claims.supports.length
-     .panel.panel-default
-      .panel-heading
-        strong #{settings.locale.ex_assoc_claim_supports}
-      table.table.table-bordered.table-striped.summary-table
-        thead
-          tr
-            th #{settings.locale.ex_name}
-            th.hidden-xs #{settings.locale.ex_claim_id}
-            th
-        tbody
-          each c in claims.supports
-            tr
-              td
-               a(href='/claim/#{c.name}') #{c.name}
-              td
-               a(href='/claim/#{c.name}/#{c.claimId}') #{c.claimId}
-              td.view_tx
-               a(href='/claim/#{c.name}/#{c.claimId}')
-                span.glyphicon.glyphicon-eye-open
+    
 
     .footer-padding
