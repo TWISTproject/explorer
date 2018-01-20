@@ -22,9 +22,6 @@
     "ex_summary": "Block Summary",
     "ex_supply": "Coin Supply",
     "ex_block": "Block",
-    "ex_name_claims": "Name Claims for",
-    "ex_supports": "Supports",
-    "ex_total_with_supports": "Total Value (with supports)",
 
     // transaction view
     "tx_title": "Transaction Details",
@@ -34,9 +31,6 @@
     "tx_hash": "Hash",
     "tx_address": "Address",
     "tx_nonstandard": "NONSTANDARD TX",
-
-    // claim view
-    "claim_tx": "Tx Hash",
 
     // block view
     "block_previous": "Previous",
