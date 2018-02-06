@@ -5,15 +5,15 @@
 */
 {
   // name your instance!
-  "title": "IQUIDUS",
+  "title": "TWIST EXPLORER",
   
-  "address": "127.0.0.1:3001",
+  "address": "127.0.0.1:4300",
   
   // coin name
-  "coin": "Darkcoin",
+  "coin": "TWIST",
 
   // coin symbol
-  "symbol": "DRK",
+  "symbol": "TWIST",
   
   // logo
   "logo": "/images/logo.png",
@@ -26,16 +26,16 @@
   //     Cerulean, Cosmo, Cyborg, Darkly, Flatly, Journal, Lumen, Paper, 
   //     Readable, Sandstone, Simplex, Slate, Spacelab, Superhero, United, Yeti
   // theme (see /public/themes for available themes)
-  "theme": "Cyborg",
+  "theme": "Paper",
 
   // port to listen for requests on.
-  "port" : 3001,
+  "port" : 4300,
 
   // database settings (MongoDB)
   "dbsettings": {
-    "user": "iquidus",
-    "password": "3xp!0reR",
-    "database": "explorerdb",
+    "user": "u",
+    "password": "p",
+    "database": "db",
     "address": "localhost",
     "port": 27017
   },
@@ -47,13 +47,13 @@
   // wallet settings
   "wallet": {
     "host": "localhost",
-    "port": 9332,
-    "user": "darkcoinrpc",
-    "pass": "123gfjk3R3pCCVjHtbRde2s5kzdf233sa"
+    "port": 16462,
+    "user": "u",
+    "pass": "p"
   },
   
   // confirmations
-  "confirmations": 40,
+  "confirmations": 2,
 
   // language settings
   "locale": "locale/en.json",
@@ -61,7 +61,7 @@
   // menu settings
   "display": {
     "api": true,
-    "markets": true,
+    "markets": false,
     "richlist": true,
     "twitter": true,
     "search": true
@@ -76,10 +76,10 @@
   
   // ensure links on API page are valid
   "api": {
-    "blockindex": 1337,
-    "blockhash": "1733320247b15ca2262be646397d1ffd6be953fa638ebb8f5dcbb4c2b91b34f1",
-    "txhash": "f270cd3813254c9922a2e222a56ba745842d9112223a1394062e460b33d27b7e",
-    "address": "RBiXWscC63Jdn1GfDtRj8hgv4Q6Zppvpwb"
+    "blockindex": 2,
+    "blockhash": "4531fada7c6d232154933922668b605bb68e175d064f50afcc31419573a5759c",
+    "txhash": "9bf55d53d5cc4f782d23ae57649337838189889cd9f1e275fffd2e83231bdb55",
+    "address": "19XGNzFZGVkgVXqSGy1dbmmnbsTK9c8w2G"
   },
   
   // market settings
@@ -101,14 +101,14 @@
   },
 
   // twitter
-  "twitter": "iquidus",
+  "twitter": "twist_project",
 
   //genesis
-  "genesis_tx": "65f705d2f385dc85763a317b3ec000063003d6b039546af5d8195a5ec27ae410",
-  "genesis_block": "b2926a56ca64e0cd2430347e383f63ad7092f406088b9b86d6d68c2a34baef51",  
+  "genesis_tx": "5050dc55cc348d4f7ebf6e0e64672287c1aff309166cf34492ef2886fb56665c",
+  "genesis_block": "000007b384d63ba6a5983c32338e13f753808a2159cf3b1f4403c3a130702559",  
 
   //heavy (enable/disable additional heavy features)
-  "heavy": false,
+  "heavy": true,
 
   //amount of txs to index per address (stores latest n txs)
   "txcount": 100,
@@ -139,7 +139,6 @@
   // type (optional) = class of label, valid types: default, primary, warning, danger, success
   // url (optional) = url to link to for more information 
   "labels": {
-  //  "JSoEdU717hvz8KQVq2HfcqV9A79Wihzusu": {"label": "Developers address", "type":"primary", "url":"http://example.com"},
-  //  "JSWVXHWeYNknPdG9uDrcBoZHztKMFCsndw": {"label": "Cryptsy"}
+	"19XGNzFZGVkgVXqSGy1dbmmnbsTK9c8w2G": {"label": "Premine", "type":"primary"}
   }
 }
