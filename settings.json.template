@@ -77,9 +77,9 @@
   // ensure links on API page are valid
   "api": {
     "blockindex": 2,
-    "blockhash": "4531fada7c6d232154933922668b605bb68e175d064f50afcc31419573a5759c",
-    "txhash": "9bf55d53d5cc4f782d23ae57649337838189889cd9f1e275fffd2e83231bdb55",
-    "address": "19XGNzFZGVkgVXqSGy1dbmmnbsTK9c8w2G"
+    "blockhash": "e3972aa13c95d350400a278b020e7bc66291bb95b7115a43a5c715a91d445beb",
+    "txhash": "4127f2417455eb09c539e90ca6cf0c5c4eaf2318160cc21e63a1d0e1192fc8d7",
+    "address": "18RRXGYShjbzvB4ENRywLmiiA3rVPwzJrA"
   },
   
   // market settings
@@ -104,8 +104,8 @@
   "twitter": "twist_project",
 
   //genesis
-  "genesis_tx": "5050dc55cc348d4f7ebf6e0e64672287c1aff309166cf34492ef2886fb56665c",
-  "genesis_block": "000007b384d63ba6a5983c32338e13f753808a2159cf3b1f4403c3a130702559",  
+  "genesis_tx": "ba524065df79a272668f365102656079a9256e11a489b665531692239ace5048",
+  "genesis_block": "000001ed1fe67e61ccb99d59c199221d638fa17b7a66a3cfe2b177f209566738",  
 
   //heavy (enable/disable additional heavy features)
   "heavy": true,
@@ -139,6 +139,6 @@
   // type (optional) = class of label, valid types: default, primary, warning, danger, success
   // url (optional) = url to link to for more information 
   "labels": {
-	"19XGNzFZGVkgVXqSGy1dbmmnbsTK9c8w2G": {"label": "Premine", "type":"primary"}
+	"18RRXGYShjbzvB4ENRywLmiiA3rVPwzJrA": {"label": "Premine", "type":"primary"}
   }
 }
