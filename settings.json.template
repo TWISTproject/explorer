@@ -47,7 +47,7 @@
   // wallet settings
   "wallet": {
     "host": "localhost",
-    "port": 16462,
+    "port": 17473,
     "user": "u",
     "pass": "p"
   },
@@ -70,16 +70,16 @@
   // index page (valid options for difficulty are POW or POS)
   "index": {
     "show_hashrate": true,
-    "difficulty": "POW",
+    "difficulty": "POS",
     "last_txs": 100
   },
   
   // ensure links on API page are valid
   "api": {
-    "blockindex": 2,
-    "blockhash": "e3972aa13c95d350400a278b020e7bc66291bb95b7115a43a5c715a91d445beb",
-    "txhash": "4127f2417455eb09c539e90ca6cf0c5c4eaf2318160cc21e63a1d0e1192fc8d7",
-    "address": "18RRXGYShjbzvB4ENRywLmiiA3rVPwzJrA"
+    "blockindex": 100,
+    "blockhash": "016d95cffa7670bba90177b81b72f4ada549675c0ff259090f8b116d934e4e31",
+    "txhash": "e0b5828f346d3c5db6e12ca92525994caecc07e5897762e47dce1a4907e5d4d8",
+    "address": "14u3p5nKHRMEBXR3ZboPnuEoWG62aJDgAu"
   },
   
   // market settings
@@ -104,8 +104,8 @@
   "twitter": "twist_project",
 
   //genesis
-  "genesis_tx": "ba524065df79a272668f365102656079a9256e11a489b665531692239ace5048",
-  "genesis_block": "000001ed1fe67e61ccb99d59c199221d638fa17b7a66a3cfe2b177f209566738",  
+  "genesis_tx": "3920ec41ea232132d6229d6ed76e80d1253acb09d890b1201221969daa77f210",
+  "genesis_block": "00000826ca14fa68927bcba493d31760964a3b02c9b0dd6e32fb2c5c5f3af003",  
 
   //heavy (enable/disable additional heavy features)
   "heavy": true,
@@ -139,6 +139,8 @@
   // type (optional) = class of label, valid types: default, primary, warning, danger, success
   // url (optional) = url to link to for more information 
   "labels": {
-	"18RRXGYShjbzvB4ENRywLmiiA3rVPwzJrA": {"label": "Premine", "type":"primary"}
+	"1L2F2PrDifUnToNJec4HNaw3cDQnHadHu4": {"label": "Airdrop Premine", "type":"primary"},
+	"16qJHPoWE1tQPahnxXGxmQK4aC4mp6muaY": {"label": "Developer Fund Premine", "type":"primary"},
+	"13FJBQifERbT8G5KZ7QgAcEimn6MhSSjiB": {"label": "Bounty Fund Premine", "type":"primary"}
   }
 }
