@@ -108,7 +108,7 @@
   "genesis_block": "00000826ca14fa68927bcba493d31760964a3b02c9b0dd6e32fb2c5c5f3af003",  
 
   //heavy (enable/disable additional heavy features)
-  "heavy": true,
+  "heavy": false,
 
   //amount of txs to index per address (stores latest n txs)
   "txcount": 100,

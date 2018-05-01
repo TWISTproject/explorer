@@ -98,17 +98,6 @@ html
                 a.navbar-link(href='/')
                   span.glyphicon.glyphicon-search
                   span.menu-text #{settings.locale.menu_explorer}
-            if settings.heavy == true
-              if active == 'reward'
-                li.active
-                  a.navbar-link(href='/reward')
-                    span.fa.fa-star
-                    span.menu-text #{settings.locale.menu_reward}
-              else
-                li
-                  a.navbar-link(href='/reward')
-                    span.fa.fa-star
-                    span.menu-text #{settings.locale.menu_reward}
             if settings.display.markets == true
               if active == 'markets'
                 li.active
