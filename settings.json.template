@@ -96,7 +96,7 @@
   // richlist/top100 settings
   "richlist": {
     "distribution": true,
-    "received": true,
+    "received": false,
     "balance": true
   },
 
